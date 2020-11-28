@@ -15,7 +15,7 @@ mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 n_steps = 50
 # Where to save the figures
-PROJECT_ROOT_DIR = "."
+PROJECT_ROOT_DIR = ".."
 CHAPTER_ID = "DCGAN"
 IMAGES_PATH = os.path.join(PROJECT_ROOT_DIR, "images", CHAPTER_ID)
 os.makedirs(IMAGES_PATH, exist_ok=True)
@@ -26,7 +26,6 @@ def save_fig(fig_id, tight_layout = True, fig_extension = "png", resolution = 30
     if tight_layout:
         plt.tight_layout()
     plt.savefig(path, format = fig_extension, dpi = resolution)
-
 
 """
 Exports torch.Tensor to Numpy array.
@@ -49,7 +48,7 @@ def create_folder(folder_path):
     Create the folder if it has been accidently deleted.
 """
 def clear_folder(folder_path):
-   
+    
     create_folder(folder_path)
     for the_file in os.listdir(folder_path):
         _file_path = os.path.join(folder_path, the_file)
@@ -78,3 +77,4 @@ class StdOut(object):
     def flush(self):
         self.terminal.flush()
         self.log.flush()
+
