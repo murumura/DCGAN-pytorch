@@ -1,5 +1,5 @@
-PyTorch version: 1.7.0
-CUDA version: 11.0
+PyTorch version: 1.6.0
+CUDA version: 10.1
 
 Random Seed:  1
 Generator(
@@ -7,22 +7,22 @@ Generator(
     (0): ConvTranspose2d(100, 512, kernel_size=(4, 4), stride=(1, 1), bias=False)
     (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (2): ReLU(inplace=True)
-    (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (5): ReLU(inplace=True)
-    (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (8): ReLU(inplace=True)
-    (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (10): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (11): ReLU(inplace=True)
-    (12): ConvTranspose2d(64, 3, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (12): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (13): Tanh()
   )
 )
 Discriminator(
   (main): Sequential(
-    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (1): LeakyReLU(negative_slope=0.2, inplace=True)
     (2): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
     (3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -37,3 +37,20 @@ Discriminator(
     (12): Sigmoid()
   )
 )
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+Epoch 0 [0/469] loss_D_real: 0.7260 loss_D_fake: 0.5211 loss_G: 3.5123
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])
+torch.Size([128, 1, 64, 64])
+torch.Size([128])

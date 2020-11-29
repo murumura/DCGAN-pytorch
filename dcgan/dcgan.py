@@ -17,23 +17,26 @@ import utils
 
 # Parameters to define the model.
 params = {
-    'gpu' : True, # Using GPU to train the model
-    "batch_size" : 128,# Batch size during training.
-    'imsize' : 64,# Spatial size of training images. All images will be resized to this size during preprocessing.
-    'image_channel' : 3,# Number of channles in the training images. For coloured images this is 3.
-    'z_dim' : 100,# Size of the Z latent vector (the input to the generator).
-    'ngf' : 64,# Size of feature maps in the generator. The depth will be multiples of this.
-    'ndf' : 64, # Size of features maps in the discriminator. The depth will be multiples of this.
-    'nepochs' : 10,# Number of training epochs.
-    'lr' : 0.0002,# Learning rate for optimizers
-    'beta1' : 0.5,# Beta1 hyperparam for Adam optimizer
-    'save_epoch' : 2,# Save step.
+    'gpu' : True,           # Using GPU to train the model
+    "batch_size" : 128,     # Batch size during training.
+    'imsize' : 64,          # Spatial size of training images. All images will be resized to this size during preprocessing.
+    'image_channel' : 1,    # Number of channles in the training images. For coloured images this is 3.
+    'z_dim' : 100,          # Size of the Z latent vector (the input to the generator).
+    'ngf' : 64,             # Size of feature maps in the generator. The depth will be multiples of this.
+    'ndf' : 64,             # Size of features maps in the discriminator. The depth will be multiples of this.
+    'nepochs' : 25,         # Number of training epochs.
+    'lr' : 0.0002,          # Learning rate for optimizers
+    'beta1' : 0.5,          # Beta1 hyperparam for Adam optimizer
+    'save_epoch' : 2,       # Save step.
     'cuda_dnn_benchmark' : True,
     'seed' : 1,
     'data_path' : '../Data/mnist',
     'output_path' : 'output',
     'output_log' : os.path.join('output', 'log.txt')
 }
+# Establish convention for real and fake labels during training
+REAL_LABEL = 1
+FAKE_LABEL = 0
 
 def config_params(args):
     for arg in vars(args):
@@ -85,19 +88,19 @@ class Generator(nn.Module):
             nn.BatchNorm2d(num_features = params['ngf'] * 8),
             nn.ReLU(True),
             # 2nd layer
-            nn.ConvTranspose2d(in_channels = params['ngf'] * 8, out_channels = params['ngf'] * 4, kernel_size = 4, stride = 1, padding = 0, bias=False),
+            nn.ConvTranspose2d(in_channels = params['ngf'] * 8, out_channels = params['ngf'] * 4, kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(num_features = params['ngf'] * 4),
             nn.ReLU(True),
             # 3rd layer
-            nn.ConvTranspose2d(in_channels = params['ngf'] * 4, out_channels = params['ngf'] * 2, kernel_size = 4, stride = 1, padding = 0, bias=False),
+            nn.ConvTranspose2d(in_channels = params['ngf'] * 4, out_channels = params['ngf'] * 2, kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(num_features = params['ngf'] * 2),
             nn.ReLU(True),
             # 4th layer
-            nn.ConvTranspose2d(in_channels = params['ngf'] * 2, out_channels = params['ngf'], kernel_size = 4, stride = 1, padding = 0, bias=False),
+            nn.ConvTranspose2d(in_channels = params['ngf'] * 2, out_channels = params['ngf'], kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(num_features = params['ngf'] ),
             nn.ReLU(True),
             # output layer
-            nn.ConvTranspose2d(params['ngf'], params['image_channel'], kernel_size = 4,stride = 1, padding = 0, bias = False),
+            nn.ConvTranspose2d(params['ngf'], params['image_channel'], kernel_size = 4,stride = 2, padding = 1, bias = False),
             nn.Tanh()
         )
     def forward(self, input):
@@ -136,12 +139,11 @@ class Discriminator(nn.Module):
 """
 def get_mnist(params):
     dataset = datasets.MNIST(root= params['data_path'], download=True,
-                     transform=transforms.Compose([
+                     transform = transforms.Compose([
                      transforms.Resize(params['imsize']),
                      transforms.ToTensor(),
                      transforms.Normalize((0.5,), (0.5,))
                      ]))
-
     assert dataset
     dataloader = torch.utils.data.DataLoader(dataset, 
                                             batch_size = params['batch_size'],
