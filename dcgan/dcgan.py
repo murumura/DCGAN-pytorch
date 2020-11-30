@@ -30,9 +30,10 @@ params = {
     'save_epoch' : 2,       # Save step.
     'cuda_dnn_benchmark' : True,
     'seed' : 1,
+    'dataset' : 'mnist',
     'data_path' : '../Data/mnist',
-    'output_path' : 'output',
-    'output_log' : os.path.join('output', 'log.txt')
+    'output_path' : 'output/mnist',
+    'output_log' : os.path.join('output/mnist', 'log.txt')
 }
 # Establish convention for real and fake labels during training
 REAL_LABEL = 1
@@ -41,6 +42,7 @@ FAKE_LABEL = 0
 def config_params(args):
     for arg in vars(args):
         print(arg, getattr(args, arg))
+        params.update({arg: getattr(args, arg)})
 def init():
     # Empty the output folder for us and create one if it doesn't exist.
     utils.clear_folder(params['output_path'])  
@@ -150,3 +152,5 @@ def get_mnist(params):
                                             shuffle = True,
                                             num_workers = 4)
     return dataloader
+def get_CelebA(params):
+    pass

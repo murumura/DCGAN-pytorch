@@ -19,7 +19,10 @@ class Trainer():
 
         optimizerD = optim.Adam(netD.parameters(), lr = params['lr'], betas=(params['beta1'], 0.999))
         optimizerG = optim.Adam(netG.parameters(), lr= params['lr'], betas=(params['beta1'], 0.999))
-        dataloader = get_mnist(params)
+        if params['dataset'] == 'mnist':
+            dataloader = get_mnist(params)
+        elif params['dataset'] == 'celebA':
+            dataloader = get_CelebA(params)
         for epoch in range(params['nepochs']):
             for i, data in enumerate(dataloader):
                 x_real = data[0].to(params['device'])
@@ -54,6 +57,7 @@ class Trainer():
                         loss_D_fake.mean().item(),
                         loss_G.mean().item()
                     ))
+                    # Export the generated images during training.
                     vutils.save_image(x_real, os.path.join(params['output_path'], 'real_samples.png'), normalize=True)
                     with torch.no_grad():
                         viz_sample = netG(viz_noise)
