@@ -28,7 +28,7 @@ class Trainer():
         
         if params['dataset'] == 'mnist':
             dataloader = get_mnist(params)
-        elif params['dataset'] == 'celebA':
+        elif params['dataset'] == 'CelebA':
             dataloader = get_CelebA(params)
         for epoch in range(params['nepochs']):
             D_losses = []

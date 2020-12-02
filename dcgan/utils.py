@@ -1,7 +1,8 @@
 # Common imports
 import numpy as np
 from pathlib import Path
-
+from PIL import Image
+import imageio
 #To plot pretty picture
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -9,7 +10,8 @@ import errno
 import shutil
 import sys
 import os
-
+import torch
+import torch.utils.data as data
 mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
@@ -92,3 +94,75 @@ def plot_loss(d_loss, g_loss, num_epoch, epoches, save_dir):
     plt.legend()
     plt.savefig(os.path.join(save_dir, 'DCGAN_loss_epoch_{}.png'.format(num_epoch)))
     plt.close()
+
+def read_data_file(filename, root=None):
+    
+    lists = []
+    with open(filename, 'r') as fp:
+        line = fp.readline()
+        while line:
+            info = line.strip().split(' ')
+            if root is not None:
+                info[0] = os.path.join(root, info[0])
+            if len(info) == 1:
+                item = (info[0], 1)
+            else:
+                item = (info[0], int(info[1]))
+            lists.append(item)
+            line = fp.readline()
+    
+    return lists
+
+"""
+ A data loader where the list is arranged in this way:
+        
+        dog/1.jpg 1
+        dog/2.jpg 1
+        dog/3.jpg 1
+            .
+            .
+            .
+        cat/1.jpg 2
+        cat/2.jpg 2
+            .
+            .
+            .
+        path      label
+    
+    Args:
+      
+        root (string): Root directory path.
+        transform (callable, optional): A function/transform that takes in an PIL image
+            and returns a transformed version
+"""
+class MyDataFolder(data.Dataset): 
+    def __init__(self, filename, root = None, transform = None):
+
+        lists = read_data_file(filename)
+        if len(lists) == 0:
+            raise(RuntimeError('Found 0 images in subfolders\n'))
+
+        self.root = root
+        self.transform = transform
+        self.lists = lists
+        self.load = lambda path : Image.load(path).convert('RGB')
+
+    def __getitem__(self, index):
+        """
+        Args:
+            index (int): index
+    
+        Returns:
+            tuple: (image, label) where label is the clas of the image
+        """
+        path, label = self.lists[index]
+        img = self.load(path)
+    
+        if self.transform is not None:
+            img = self.transform(img)
+        
+        return img, label
+    
+    def __len__(self):
+        
+        return len(self.lists)

@@ -2,8 +2,8 @@
 Yet another pytorch implementation of Deep Convolutional Generative Adversarial Networks
 # Dependencies
 - Python 3.7.7
-- PyTorch version: 1.6.0
-- CUDA version: 10.1
+- PyTorch version: 1.7.0
+- CUDA version: 11.1
 
 # Usage
 - Training using Mnist dataset
@@ -12,6 +12,6 @@ sh train_mnist.sh
 ```
 # Result
 - Mnist Generated image
-![](DCGAN-pytorch/dcgan/output/mnist/../../../../dcgan/output/mnist/fake_samples_24.png)
+![](images/DCGAN/fake_samples_24.png)
 - Training loss
-![](DCGAN-pytorch/dcgan/output/mnist/../../../../dcgan/output/mnist/DCGAN_loss_epoch_25.png)
+![](images/DCGAN/DCGAN_loss_epoch_25.png)

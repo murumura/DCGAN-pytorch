@@ -13,7 +13,7 @@ import torchvision.transforms as transforms
 import torchvision.utils as vutils
 
 import utils
-
+from utils import *
 
 # Parameters to define the model.
 params = {
@@ -153,4 +153,25 @@ def get_mnist(params):
                                             num_workers = 4)
     return dataloader
 def get_CelebA(params):
-    pass
+    try:
+        dataset = datasets.CelebA(root= params['data_path'], download = True,
+                        transform = transforms.Compose([
+                        transforms.Resize(params['imsize']),
+                        transforms.CenterCrop(params['imsize']),
+                        transforms.ToTensor(),
+                        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                        ]))
+    except RuntimeError: # Release Google'Drive's daily quota limitation by download the dataset manully
+        dataset = datasets.ImageFolder(root = params['data_path'],
+                        transform = transforms.Compose([
+                            transforms.Resize(params['imsize']),
+                            transforms.CenterCrop(params['imsize']),
+                            transforms.ToTensor(),
+                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                        ]))
+    assert dataset
+    dataloader = torch.utils.data.DataLoader(dataset, 
+                                            batch_size = params['batch_size'],
+                                            shuffle = True,
+                                            num_workers = 4)
+    return dataloader
