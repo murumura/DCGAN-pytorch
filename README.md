@@ -10,8 +10,12 @@ Yet another pytorch implementation of Deep Convolutional Generative Adversarial 
 ```sh
 sh train_mnist.sh
 ```
+- Training using Mnist dataset
+```sh
+sh train_CelebA.sh
+```
 # Result
 - Mnist Generated image
-![](images/DCGAN/fake_samples_24.png)
+![](images/DCGAN/result.gif)
 - Training loss
 ![](images/DCGAN/DCGAN_loss_epoch_25.png)

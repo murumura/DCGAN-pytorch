@@ -79,7 +79,7 @@ class Trainer():
                     vutils.save_image(x_real, os.path.join(params['output_path'], 'real_samples.png'), normalize=True)
                     with torch.no_grad():
                         viz_sample = netG(viz_noise)
-                        vutils.save_image(viz_sample, os.path.join(params['output_path'], 'fake_samples_{}.png'.format(epoch)), normalize=True)
+                        vutils.save_image(viz_sample, os.path.join(params['output_path'], 'fake_samples_{}.png'.format(epoch + 1)), normalize=True)
             
             train_hist['D_losses'].append(torch.mean(torch.FloatTensor(D_losses)))
             train_hist['G_losses'].append(torch.mean(torch.FloatTensor(G_losses)))
@@ -87,3 +87,5 @@ class Trainer():
             plot_loss(train_hist['D_losses'], train_hist['G_losses'], epoch + 1, params['nepochs'], params['output_path'])
             torch.save(netG.state_dict(), os.path.join(params['output_path'], 'netG_{}.pth'.format(epoch)))
             torch.save(netD.state_dict(), os.path.join(params['output_path'], 'netD_{}.pth'.format(epoch)))
+
+        create_gif(config.epoches, args.save_dir)

@@ -28,6 +28,19 @@ def save_fig(fig_id, tight_layout = True, fig_extension = "png", resolution = 30
     if tight_layout:
         plt.tight_layout()
     plt.savefig(path, format = fig_extension, dpi = resolution)
+'''
+create gif of plotted loss, synsethesis images
+'''
+def create_gif(epoches, save_dir):
+    images = []
+    for i in range(1, epoches + 1):
+        images.append(imageio.imread(os.path.join(save_dir, 'fake_samples_{}.png'.format(i))))
+    imageio.mimsave(os.path.join(save_dir, 'result.gif'), images, fps=5)
+    images = []
+    for i in range(1, epoches + 1):
+        images.append(imageio.imread(os.path.join(save_dir, 'DCGAN_loss_epoch_{}.png'.format(i))))
+    imageio.mimsave(os.path.join(save_dir, 'result_loss.gif'), images, fps=5)
+
 
 """
 Exports torch.Tensor to Numpy array.

@@ -1,11 +1,16 @@
 from dcgan import *
 from train import Trainer
+from eval import Evaluator
 import argparse
 def run(args):
     config_params(args)
     init()
-    gan_trainer = Trainer(params)
-    gan_trainer.train(params)
+    if(args.train):
+        gan_trainer = Trainer(params)
+        gan_trainer.train(params)
+    elif(args.eval):
+        gan_eval = Evaluator(params)
+        gan_eval.eval_algorithm(params)
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()

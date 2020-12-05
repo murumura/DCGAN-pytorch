@@ -18,6 +18,8 @@ from utils import *
 # Parameters to define the model.
 params = {
     'gpu' : True,           # Using GPU to train the model
+    'eval' : False,
+    'train' : False,         
     "batch_size" : 128,     # Batch size during training.
     'imsize' : 64,          # Spatial size of training images. All images will be resized to this size during preprocessing.
     'image_channel' : 1,    # Number of channles in the training images. For coloured images this is 3.
@@ -44,11 +46,12 @@ def config_params(args):
         print(arg, getattr(args, arg))
         params.update({arg: getattr(args, arg)})
 def init():
-    # Empty the output folder for us and create one if it doesn't exist.
-    utils.clear_folder(params['output_path'])  
-    print("Logging to {}\n".format(params['output_log']))
-    # Redirect all messages from print to the log file and show these messages in the console at the same time.
-    sys.stdout = utils.StdOut(params['output_log']) 
+    if params['train']:
+        # Empty the output folder for us and create one if it doesn't exist.
+        utils.clear_folder(params['output_path'])  
+        print("Logging to {}\n".format(params['output_log']))
+        # Redirect all messages from print to the log file and show these messages in the console at the same time.
+        sys.stdout = utils.StdOut(params['output_log']) 
     CUDA = params['gpu']
     CUDA = CUDA and torch.cuda.is_available()
     print("PyTorch version: {}".format(torch.__version__))
