@@ -2,8 +2,7 @@ FROM pytorch/pytorch
 RUN apt-get update && apt-get install -y --no-install-recommends git
 RUN apt-get install python3-pip -y
 RUN apt-get install libsndfile1 -y
-RUN pip install --upgrade pip
-RUN pip3 --no-cache-dir install \
+RUN pip install --upgrade pip && pip3 --no-cache-dir install \
     Pillow \
     h5py \
     keras_preprocessing \
@@ -18,7 +17,11 @@ RUN pip3 --no-cache-dir install \
     librosa\
     numba==0.48.0\
     tqdm\
-    scikit-image\
+    imageio \
+    imageio-ffmpeg \
+    configargparse \
+    scikit-image \
+    opencv-python \
     notebook
     # Add Tini. Tini operates as a process subreaper for jupyter. This prevents
 WORKDIR /torch
