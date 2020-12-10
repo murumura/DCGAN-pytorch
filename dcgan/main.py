@@ -17,6 +17,7 @@ if __name__ == "__main__":
     p.add_argument('--train', action='store_true')
     p.add_argument('--eval', action='store_true')
     p.add_argument("--image_channel", type = int, default = 1)
+    p.add_argument("--batch_size", type = int, default = 128)
     p.add_argument("--data_path", type=str, default="../Data/mnist")
     p.add_argument("--dataset", type=str, default="mnist")
     p.add_argument("--output_path", type=str, default = "output/mnist")

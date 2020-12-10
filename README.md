@@ -15,7 +15,7 @@ sh train_mnist.sh
 sh train_CelebA.sh
 ```
 # Result
-- Mnist Generated image
+- CelebA Generated image
 ![](images/DCGAN/result.gif)
 - Training loss
 ![](images/DCGAN/DCGAN_loss_epoch_25.png)

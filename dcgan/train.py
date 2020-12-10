@@ -87,5 +87,5 @@ class Trainer():
             plot_loss(train_hist['D_losses'], train_hist['G_losses'], epoch + 1, params['nepochs'], params['output_path'])
             torch.save(netG.state_dict(), os.path.join(params['output_path'], 'netG_{}.pth'.format(epoch)))
             torch.save(netD.state_dict(), os.path.join(params['output_path'], 'netD_{}.pth'.format(epoch)))
-
-        create_gif(config.epoches, args.save_dir)
+        # Create a gif of generated images
+        create_gif(params['nepochs'],params['output_path'])
